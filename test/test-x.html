@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
   <!--
     Cross origin postmessage tests.
@@ -10,15 +11,15 @@
   //!-->
   <head>
     <title>postmessge Test Suite</title>
-    <link rel="stylesheet" href="qunit.css" type="text/css" media="screen">
-    <script type="text/javascript" src="qunit.js"></script>    
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script type="text/javascript" src="../postmessage.min.js"></script>    
-    <script type="text/javascript" src="test.js"></script>
-    <script type="text/javascript">
+    <link rel="stylesheet" href="qunit.css">
+    <script src="qunit.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="../postmessage.js"></script>
+    <script src="test.js"></script>
+    <script>
       // change origin to where iframe-x.html is served from.
       // REMEMBER to change the <iframe src>
-      var origin = "http://localhost";
+      var origin = "http://misc.dev";
       $(function() {
         // cross-origin
         bind("x-", null, origin);
@@ -31,6 +32,6 @@
     </style>
   </head>
   <body>
-    <iframe id="iframe" src="http://localhost/postmessage/test/iframe-x.html" name="iframe" frameborder="0"></iframe>    
+    <iframe id="iframe" src="/postmessage/test/iframe-x.html" name="iframe" frameborder="0"></iframe>
   </body>
 </html>

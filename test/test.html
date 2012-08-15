@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
   <!--
     Same origin postmessage tests.
@@ -6,15 +7,15 @@
   //!-->
   <head>
     <title>postmessage Test Suite</title>
-    <link rel="stylesheet" href="qunit.css" type="text/css" media="screen">
-    <script type="text/javascript" src="qunit.js"></script>    
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script type="text/javascript" src="../postmessage.min.js"></script>    
-    <script type="text/javascript" src="test.js"></script>
-    <script type="text/javascript">
+    <link rel="stylesheet" href="qunit.css">
+    <script src="qunit.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="../postmessage.js"></script>
+    <script src="test.js"></script>
+    <script>
       // change origin to where iframe.html is served from.
       // REMEMBER to change the <iframe src>
-      var origin = "http://localhost"
+      var origin = "http://misc.dev"
       $(function() {
         // same origin
         bind("", null, origin);
@@ -22,11 +23,10 @@
       });
     </script>
     <style>
-      body {margin:0;padding:0;}
-      iframe {border:0;width:100%;height:100%;}
+      body, html, iframe {margin:0;padding:0; border:0;width:100%;height:100%;}
     </style>
   </head>
   <body>
-    <iframe id="iframe" src="http://localhost/postmessage/test/iframe.html" name="iframe" frameborder="0"></iframe>
+    <iframe id="iframe" src="/postmessage/test/iframe.html" name="iframe" frameborder="0"></iframe>
   </body>
 </html>

@@ -1,25 +1,26 @@
+<!doctype html>
 <html>
   <head>
     <title>postmessage Test Suite</title>
-    <link rel="stylesheet" href="qunit.css" type="text/css" media="screen">
-    <script type="text/javascript" src="qunit.js"></script>    
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script type="text/javascript" src="../postmessage.min.js"></script>  
-    <script type="text/javascript" src="test.js"></script>
-    <script type="text/javascript">
+    <link rel="stylesheet" href="qunit.css">
+    <script src="qunit.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="../postmessage.js"></script>
+    <script src="test.js"></script>
+    <script>
       // change target_url to where text-x.html is served from
-      var target_url = "http://127.0.0.1/postmessage/test/test-x.html";
+      var target_url = "/postmessage/test/test-x.html";
       $(function() {
         module("postmessage.x-origin");
         send(window.parent, "x-", false, target_url);
-        
+
         module("postmessage.x-origin.hash");
         send(window.parent, "#x-", true, target_url);
       });
-    </script>   
+    </script>
     <style>
       body {margin:0;padding:0;}
-    </style>    
+    </style>
   </head>
   <body>
     <h1 id="qunit-header">postmessage Test Suite: cross origin</h1>
@@ -27,6 +28,6 @@
     <div id="qunit-testrunner-toolbar"></div>
     <h2 id="qunit-userAgent"></h2>
     <ol id="qunit-tests"></ol>
-    
+
   </body>
 </html>
