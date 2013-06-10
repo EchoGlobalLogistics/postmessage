@@ -5,11 +5,11 @@
     <link rel="stylesheet" href="qunit.css">
     <script src="qunit.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script src="../postmessage.js"></script>
+    <script src="/postmessage.js"></script>
     <script src="test.js"></script>
     <script>
       // change target_url to where text-x.html is served from
-      var target_url = "/postmessage/test/test-x.html";
+      var target_url = "http://localhot:8080/test/test-x.html";
       $(function() {
         module("postmessage.x-origin");
         send(window.parent, "x-", false, target_url);

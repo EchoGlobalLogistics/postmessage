@@ -10,12 +10,12 @@
     <link rel="stylesheet" href="qunit.css">
     <script src="qunit.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script src="../postmessage.js"></script>
+    <script src="/postmessage.js"></script>
     <script src="test.js"></script>
     <script>
       // change origin to where iframe.html is served from.
       // REMEMBER to change the <iframe src>
-      var origin = "http://misc.dev"
+      var origin = "http://localhost:8080"
       $(function() {
         // same origin
         bind("", null, origin);
@@ -27,6 +27,6 @@
     </style>
   </head>
   <body>
-    <iframe id="iframe" src="/postmessage/test/iframe.html" name="iframe" frameborder="0"></iframe>
+    <iframe id="iframe" src="http://localhost:8080/test/iframe.html" name="iframe" frameborder="0"></iframe>
   </body>
 </html>

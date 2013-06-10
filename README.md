@@ -157,6 +157,20 @@ pm.unbind([type], [fn])
         fn:Function (Optional)
                 The function that is to be no longer executed.
 
+Testing
+=======
+
+1. Install Node's http-server
+
+    `npm install -g http-server`
+
+2. go to this folder and run
+
+    `http-server`
+
+3. open `http://localhost:8080/test/test.html` in your browser
+
+4. open `http://localhost:8080/test/test-x.html` in your browser
 
 For examples and more:
 ======================
