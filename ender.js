@@ -1,4 +1,4 @@
 (function ($) {
-  var pm = require('postmessage');
+  var pm = require('ender-pm');
   $.ender({pm: pm});
 })(ender);
