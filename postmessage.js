@@ -21,21 +21,24 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  **/
-(function (window, $, undefined) {
+ !function (name, context, definition) {
+  if (typeof module != 'undefined' && module.exports) module.exports = definition()
+  else if (typeof define == 'function' && define.amd) define(definition)
+  else context[name] = definition()
+}('pm', this, function () {
 
   "use strict";
 
+  var console;
   if (!('console' in window)) {
-    var c = window.console = {};
+    console = {};
     c.log = c.warn = c.error = c.debug = function () {};
+  } else {
+    console = window.console;
   }
 
-  if (!('JSON' in window && window.JSON)) {
+  if (typeof JSON !== 'object') {
     throw new Error('This browser does not have a JSON parser. You need to include json2.js');
-  }
-
-  if (!($ && typeof $ === 'function')) {
-    throw new Error('You need to include jQuery');
   }
 
   /**
@@ -76,13 +79,29 @@
     };
   }
 
+  /*
+   * extend based on Underscore.js
+  */
+  var extend = function(obj) {
+    var source;
+    for (var i = 1, l = arguments.length; i < l; i++) {
+      source = arguments[i];
+      if (source) {
+        for (var prop in source) {
+          obj[prop] = source[prop];
+        }
+      }
+    }
+    return obj;
+  };
+
   var
     pm,
     PostMessage
   ;
 
   // send postmessage
-  window.pm = window.PostMessage = PostMessage = function (options) {
+  PostMessage = function (options) {
     pm.send(options);
   };
 
@@ -106,7 +125,7 @@
 
     send: function (options) {
       var
-        o = $.extend({}, pm.defaults, options),
+        o = extend({}, pm.defaults, options),
         target = o.target,
         msg = {
           data: o.data,
@@ -516,7 +535,8 @@
 
   };
 
-  $.extend(pm, {
+
+  extend(pm, {
     defaults: {
       /* target window (required) */
       target: null,
@@ -537,4 +557,5 @@
     }
   });
 
-}(this, jQuery));
+  return PostMessage;
+});
