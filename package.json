@@ -1,0 +1,18 @@
+{
+    "name": "ender-pm"
+  , "description": "postMessage wrapper"
+  , "version": "0.0.1"
+  , "homepage": "https://github.com/emirotin/postmessage"
+  , "author": "Daniel Park <daepark@gmail.com> (http://metaweb.com, http://postmessage.freebaseapps.com)"
+  , "contributors": [
+        "Eugene Mirotin <emirotin@gmail.com>"
+    ]
+  , "keywords": ["ender", "postmessage"]
+  , "main": "./postmessage.js"
+  , "ender": "./ender.js"
+  , "repository": {
+        "type": "git"
+      , "url": "https://github.com/emirotin/postmessage.git"
+    }
+  , "devDependencies": {}
+}
