@@ -9,7 +9,7 @@
     <script src="test.js"></script>
     <script>
       // change target_url to where text-x.html is served from
-      var target_url = "http://localhot:8080/test/test-x.html";
+      var target_url = "http://localhost:8080/test/test-x.html";
       $(function() {
         module("postmessage.x-origin");
         send(window.parent, "x-", false, target_url);
