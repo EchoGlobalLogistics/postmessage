@@ -2,6 +2,7 @@
  The MIT License
 
  Copyright (c) 2010 Daniel Park (http://metaweb.com, http://postmessage.freebaseapps.com)
+ Ender port and recent changes (c) 2012 Eugene Mirotin
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -22,19 +23,48 @@
  THE SOFTWARE.
  **/
  !function (name, context, definition) {
-  if (typeof module != 'undefined' && module.exports) module.exports = definition()
-  else if (typeof define == 'function' && define.amd) define(definition)
-  else context[name] = definition()
+  if (typeof module != 'undefined' && module.exports) module.exports = definition();
+  else if (typeof define == 'function' && define.amd) define(definition);
+  else context[name] = definition();
 }('pm', this, function () {
 
   "use strict";
 
-  var console;
+  var c = {},
+    debugLevels = ['log', 'warn', 'error', 'debug'],
+    DEBUG_LEVEL = 'error',
+    i, l;
   if (!('console' in window)) {
-    console = {};
-    c.log = c.warn = c.error = c.debug = function () {};
+    var noop = function () {};
+    for (i = 0, l = debugLevels.length; i < l; i++) {
+      c[debugLevels[i]] = noop;
+    }
   } else {
-    console = window.console;
+    var shouldLog = function (level) {
+      if (level == 'log') {
+        // always allow normal logs
+        return true;
+      }
+      if (DEBUG_LEVEL == 'debug') {
+        // in debug mode log everything
+        return true;
+      }
+      if (level != 'error' && DEBUG_LEVEL == 'error') {
+        // in error mode only output errors (and logs handled above)
+        return false;
+      }
+      return true;
+    };
+    var logWrap = function (level) {
+      return function() {
+        if (shouldLog(level)) {
+          console[level].apply(console, arguments);
+        }
+      };
+    };
+    for (i = 0, l = debugLevels.length; i < l; i++) {
+      c[debugLevels[i]] = logWrap(debugLevels[i]);
+    }
   }
 
   if (typeof JSON !== 'object') {
@@ -121,6 +151,14 @@
   // default postmessage polling if using location hash to pass postmessages
   PostMessage.poll = 200;
 
+  // allows changing debug level at runtime
+  PostMessage.setDebugLevel = function (level) {
+    if (debugLevels.indexOf(level) < 0) {
+      return;
+    }
+    DEBUG_LEVEL = level;
+  };
+
   pm = {
 
     send: function (options) {
@@ -133,11 +171,11 @@
         }
       ;
       if (!o.target) {
-        console.warn('postmessage target window required');
+        c.warn('postmessage target window required');
         return;
       }
       if (!o.type) {
-        console.warn('postmessage type required');
+        c.warn('postmessage type required');
         return;
       }
 
@@ -271,11 +309,11 @@
       try {
         msg = JSON.parse(e.data);
       } catch (ex) {
-        console.warn('postmessage data invalid json: ', ex);
+        c.warn('postmessage data invalid json: ', ex);
         return;
       }
       if (!msg.type) {
-        console.warn('postmessage message type required');
+        c.warn('postmessage message type required');
         return;
       }
 
@@ -314,7 +352,7 @@
 
           if (o.origin && ((o.origin instanceof Array && o.origin.indexOf(e.origin) === -1) || ((typeof(o.origin) === 'string' || o.origin instanceof String) && o.origin !== '*' && e.origin !== o.origin)))
           {
-            console.warn('postmessage message origin mismatch', e.origin, o.origin);
+            c.warn('postmessage message origin mismatch', e.origin, o.origin);
             if (msg.errback) {
               // notify post message errback
               var error = {
@@ -354,7 +392,7 @@
   pm.hash = {
 
     send: function (options, msg) {
-      //console.log("hash.send", target_window, options, msg);
+      //c.log("hash.send", target_window, options, msg);
       var
         target_window = options.target,
         target_url = options.url,
@@ -363,7 +401,7 @@
       ;
 
       if (!target_url) {
-        console.warn('postmessage target window url is required');
+        c.warn('postmessage target window url is required');
         return;
       }
 
@@ -387,7 +425,7 @@
         }
       }
       if (source_window == null) {
-        console.warn('postmessage windows must be direct parent/child windows and the child must be available through the parent window.frames list');
+        c.warn('postmessage windows must be direct parent/child windows and the child must be available through the parent window.frames list');
         return;
       }
       var hashmessage = {
@@ -490,7 +528,7 @@
             var origin = /https?\:\/\/[^\/]*/.exec(hash.source.url)[0];
             if ((o.origin instanceof Array && o.origin.indexOf(origin) === -1) || ((typeof(o.origin) === 'string' || o.origin instanceof String) && o.origin !== '*' && origin !== o.origin)) {
               //if (o.origin !== '*' && origin !== o.origin) {
-              console.warn('postmessage message origin mismatch', origin, o.origin);
+              c.warn('postmessage message origin mismatch', origin, o.origin);
               if (msg.errback) {
                 // notify post message errback
                 var error = {
